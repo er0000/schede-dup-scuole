@@ -43,7 +43,8 @@ INFANZIA<-rbind(INFANZIA_PAR,INFANZIA_STA)
 
 INFANZIA<-INFANZIA %>%   
 
-  mutate(infanzia_alutot=BAMBINIMASCHI+BAMBINIFEMMINE,Anno=paste0('20',str_sub(start=-2,ANNOSCOLASTICO)),CM="Citt. metropolitana di Bologna") %>% 
+  mutate(infanzia_alutot=BAMBINIMASCHI+BAMBINIFEMMINE,Anno=as.numeric(paste0('20',str_sub(start=-2,ANNOSCOLASTICO)))+1,
+         CM="Citt. metropolitana di Bologna") %>% 
   rename(annoscolastico=ANNOSCOLASTICO) %>% 
   group_by(Anno,annoscolastico,Tipo_scuola,CM,CODICECOMUNESCUOLA        ) %>% 
   summarise(infanzia_alutot=sum(infanzia_alutot)) %>% relocate(infanzia_alutot, .before = CM)
@@ -77,7 +78,7 @@ SCUOLE<-rbind(SCUOLE_PAR,SCUOLE_STA)
 SCUOLE %>%  
   mutate(CODICECOMUNESCUOLA= ifelse(CODICECOMUNESCUOLA=='A558','M369',CODICECOMUNESCUOLA),
          DESCRIZIONECOMUNE= ifelse(CODICECOMUNESCUOLA=='A558','Alto Reno Terme',DESCRIZIONECOMUNE),
-         Anno=paste0('20',str_sub(start=-2,ANNOSCOLASTICO)),CM="Citt. metropolitana di Bologna") %>% 
+         Anno=as.numeric(paste0('20',str_sub(start=-2,ANNOSCOLASTICO)))+1,CM="Citt. metropolitana di Bologna") %>% 
   rename(annoscolastico=ANNOSCOLASTICO) %>% 
   group_by(Anno,annoscolastico,Tipo_scuola,CM,ORDINESCUOLA,CODICECOMUNESCUOLA           ) %>% 
   summarise(alunni=sum(ALUNNI)) %>%pivot_wider(names_from = ORDINESCUOLA,values_from = alunni) %>%  
