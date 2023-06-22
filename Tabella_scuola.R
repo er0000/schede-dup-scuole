@@ -44,8 +44,7 @@ INFANZIA<-rbind(INFANZIA_PAR,INFANZIA_STA)  %>%
   ##2.b elaborazione -------------------------------------------------
 
 INFANZIA<-INFANZIA %>%   
-  mutate(CODICECOMUNESCUOLA= ifelse(CODICECOMUNESCUOLA=='A558','M369',CODICECOMUNESCUOLA),
-        DESCRIZIONECOMUNE= ifelse(CODICECOMUNESCUOLA=='A558','Alto Reno Terme',DESCRIZIONECOMUNE)) %>% 
+
   mutate(infanzia_alutot=BAMBINIMASCHI+BAMBINIFEMMINE,Anno=paste0('20',str_sub(start=-2,ANNOSCOLASTICO)),CM="Citt. metropolitana di Bologna") %>% 
   rename(annoscolastico=ANNOSCOLASTICO) %>% 
   group_by(Anno,annoscolastico,CodiceComune,DescrizioneComune,Tipo_scuola,CM,
