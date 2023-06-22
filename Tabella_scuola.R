@@ -37,8 +37,7 @@ INFANZIA_STA<-bind_dt(dt_name_pattern = '.*INFANZIACLAST') %>%
   right_join(ANAGRAFE)%>% 
   filter(!is.na(CLASSI))
 
-INFANZIA<-rbind(INFANZIA_PAR,INFANZIA_STA)# %>% 
-  #full_join( read_excel("F:/DIREZIONE-GENERALE/DATA/DB/Territorio/territorio.xlsx"),by=c("CODICECOMUNESCUOLA"="Codice Catastale"))
+INFANZIA<-rbind(INFANZIA_PAR,INFANZIA_STA)
 
   ##2.b elaborazione -------------------------------------------------
 
@@ -46,9 +45,7 @@ INFANZIA<-INFANZIA %>%
 
   mutate(infanzia_alutot=BAMBINIMASCHI+BAMBINIFEMMINE,Anno=paste0('20',str_sub(start=-2,ANNOSCOLASTICO)),CM="Citt. metropolitana di Bologna") %>% 
   rename(annoscolastico=ANNOSCOLASTICO) %>% 
-  group_by(Anno,annoscolastico,Tipo_scuola,CM,CODICECOMUNESCUOLA
-        # CodiceComune,DescrizioneComune,CodiceUnione,DescrizioneUnione,CodiceDistrettoSanitario,DescrizioneDistrettoSanitario,CodiceAUSL,DescrizioneAUSL
-        ) %>% 
+  group_by(Anno,annoscolastico,Tipo_scuola,CM,CODICECOMUNESCUOLA        ) %>% 
   summarise(infanzia_alutot=sum(infanzia_alutot)) %>% relocate(infanzia_alutot, .before = CM)
   
 
@@ -72,8 +69,7 @@ SCUOLE_STA<-bind_dt(dt_name_pattern = '.*STA.*') %>%
 
 
 
-SCUOLE<-rbind(SCUOLE_PAR,SCUOLE_STA) #%>% 
- # full_join( read_excel("F:/DIREZIONE-GENERALE/DATA/DB/Territorio/territorio.xlsx"),by=c("CODICECOMUNESCUOLA"="Codice Catastale"))
+SCUOLE<-rbind(SCUOLE_PAR,SCUOLE_STA) 
 
 ## 3.b elaborazione ---------------------------------
 
@@ -83,9 +79,7 @@ SCUOLE %>%
          DESCRIZIONECOMUNE= ifelse(CODICECOMUNESCUOLA=='A558','Alto Reno Terme',DESCRIZIONECOMUNE),
          Anno=paste0('20',str_sub(start=-2,ANNOSCOLASTICO)),CM="Citt. metropolitana di Bologna") %>% 
   rename(annoscolastico=ANNOSCOLASTICO) %>% 
-  group_by(Anno,annoscolastico,Tipo_scuola,CM,ORDINESCUOLA,CODICECOMUNESCUOLA
-           #CodiceComune,DescrizioneComune, CodiceUnione,DescrizioneUnione,CodiceDistrettoSanitario,DescrizioneDistrettoSanitario,CodiceAUSL,DescrizioneAUSL
-           ) %>% 
+  group_by(Anno,annoscolastico,Tipo_scuola,CM,ORDINESCUOLA,CODICECOMUNESCUOLA           ) %>% 
   summarise(alunni=sum(ALUNNI)) %>%pivot_wider(names_from = ORDINESCUOLA,values_from = alunni) %>%  
   rename(primarie_alutot=`SCUOLA PRIMARIA`,secIgrado_alutot=`SCUOLA SECONDARIA I GRADO`,
          secIIgrado_alutot=`SCUOLA SECONDARIA II GRADO`) %>% 
